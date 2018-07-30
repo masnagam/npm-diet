@@ -5,8 +5,8 @@
 
 'use strict';
 
-const program = require('commander');
-const { measure } = require('../lib');
+const streamToString = require('stream-to-string');
+const { program, measure } = require('../lib');
 
 const HELP = `
   Description:
