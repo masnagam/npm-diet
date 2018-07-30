@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+// This file is distributed under the MIT license.
+// See LICENSE file in the project root for details.
+
+'use strict';
+
+const program = require('commander');
+const packageJson = require('../package.json');
+
+program
+  .version(packageJson.version)
+  .description(packageJson.description)
+  .command(
+    'measure',
+    'Collect metrics of each package to be installed actually')
+  .command(
+    'summary',
+    'Show a brief summary of an analysis')
+  .parse(process.argv);

@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+// This file is distributed under the MIT license.
+// See LICENSE file in the project root for details.
+
+'use strict';
+
+const program = require('commander');
+const fs = require('fs');
+const streamToString = require('stream-to-string');
+const { summary } = require('../lib');
+
+// npm-diet-how-fat may take no arguments, but, at this moment, Commander.js
+// supports only commands which take arguments.  program.parseArgs() are
+// overridden here in order to invokde a function passed to program.action().
+//
+// PR #778 can fix this issue.
+// See https://github.com/tj/commander.js/pull/778 for details.
+program.parseArgs = (args, unknown) => {
+  program.emit('command:*', args, unknown);
+  // For avoiding a TypeError error, assign the args property if it is missing.
+  // See L477 in node_modules/commander/index.js.
+  if (this.args === undefined) {
+    this.args = [];
+  }
+  return this;
+};
+
+const HELP = `
+  Arguments:
+
+    analysis  JSON file which contains analysis results
+
+  Description:
+
+    This command loads an analysis JSON data from a file or STDIN, and shows
+    the size of each package in a table format.
+`;
+
+program
+  .description(
+    'Show a brief summary of an analysis')
+  .option(
+    '--top [num]',
+    'show only the top `num` packages',
+    parseInt)
+  .option(
+    '--ascii',
+    'show as ASCII-art table')
+  .allowUnknownOption()  // for '--no-color'
+  .arguments(
+    '[analysis]')
+  .on('--help', () => console.log(HELP))
+  .action(async (filepath, options) => {
+    const json = await readAnalysisJson(filepath);
+    const analysis = JSON.parse(json);
+    summary(analysis, options);
+  })
+  .parse(process.argv);
+
+async function readAnalysisJson(filepath) {
+  if (filepath === undefined) {
+    return await streamToString(process.stdin);
+  }
+  return fs.readFileSync(program.args[0]);
+}

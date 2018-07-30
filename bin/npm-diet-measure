@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+// This file is distributed under the MIT license.
+// See LICENSE file in the project root for details.
+
+'use strict';
+
+const program = require('commander');
+const { measure } = require('../lib');
+
+const HELP = `
+  Description:
+
+    This command installs the specified packages temporarily, and then collects
+    metrics of each package used for subsequent package size analyzer.  Finally,
+    this command formats the analysis results in the JSON format, and outputs it
+    to STDOUT.
+`;
+
+program
+  .description(
+    'Collect metrics of each installed package')
+  .arguments(
+    '<package-names...>')
+  .allowUnknownOption()  // for '--no-color'
+  .on('--help', () => console.log(HELP))
+  .action(async (names, options) => {
+    const analysis = await measure(names);
+    console.log(JSON.stringify(analysis));
+  })
+  .parse(process.argv);
