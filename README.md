@@ -91,7 +91,7 @@ near future.
 
 ### Analysis
 
-```json
+```js
 {
   "subject": "npm install commander",  // arbitary text
   "metrics": { ... },                  // metrics
@@ -105,7 +105,7 @@ near future.
 
 Subsequent analysers may add other metrics.
 
-```json
+```js
 {
   "numPkgs": 1,   // the number of packages
   "size": 61750,  // sum of package sizes
@@ -115,7 +115,7 @@ Subsequent analysers may add other metrics.
 
 ### Package
 
-```json
+```js
 {
   "name": "commander",    // package name
   "size": 61750,          // sum of file sizes
@@ -126,7 +126,7 @@ Subsequent analysers may add other metrics.
 
 File:
 
-```json
+```js
 {
   "path": "CHANGELOG.md",  // relative path from the package root
   "size": 10068            // file size in bytes
