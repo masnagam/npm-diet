@@ -21,10 +21,13 @@ program
   .description(
     'Collect metrics of each installed package')
   .arguments(
-    '<package-names...>')
+    '[package-names...]')
   .allowUnknownOption()  // for '--no-color'
   .on('--help', () => console.log(HELP))
   .action(async (names, options) => {
+    if (names.length === 0) {
+      names = JSON.parse(await streamToString(process.stdin));
+    }
     const analysis = await measure(names);
     console.log(JSON.stringify(analysis));
   })
