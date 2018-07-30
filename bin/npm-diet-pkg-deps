@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+
+// This file is distributed under the MIT license.
+// See LICENSE file in the project root for details.
+
+'use strict';
+
+const { program, utils } = require('../lib');
+
+const HELP = `
+  Description:
+
+    This command extracts names of dependent packages described in package.json
+    which are loaded from a file or STDIN.
+
+  Usages:
+
+    List names of dependent packages including devDependencies:
+
+      $ npm-diet pkg-deps --dev package.json
+
+    Make an analysis based on the dependencies property in package.json:
+
+      $ cat package.json | npm-diet pkg-deps --json | npm-diet measure
+`;
+
+program
+  .description(
+    'Extract names of dependent packages described in package.json')
+  .option(
+    '--dev',
+    'include package names in devDependencies')
+  .option(
+    '--peer',
+    'include package names in peerDependencies')
+  .option(
+    '--json',
+    'output in the JSON format',
+    String, ' ')
+  .allowUnknownOption()  // for '--no-color'
+  .arguments(
+    '[package-json]')
+  .on('--help', () => console.log(HELP))
+  .action(async (filepath, options) => {
+    const json = await utils.readStringFromFileOrStdin(filepath);
+    const packageJson = JSON.parse(json);
+    let deps = packageJson.dependencies;
+    if (options.dev && packageJson.devDependencies) {
+      deps = Object.assign({}, deps, packageJson.devDependencies);
+    }
+    if (options.peer && packageJson.peerDependencies) {
+      deps = Object.assign({}, deps, packageJson.peerDependencies);
+    }
+    const names = Object.keys(deps).map((name) => {
+      const spec = deps[name];
+      if (spec.match(/^git(\+ssh|\+https?|\+file)?:\/\//i)) {
+        return spec;
+      }
+      if (spec === "*") {
+        return name;
+      }
+      return `${name}@"${spec}"`;
+    });
+    if (options.json) {
+      console.log(JSON.stringify(names));
+      return;
+    }
+    console.log(names.join('\n'));
+  })
+  .parse(process.argv);

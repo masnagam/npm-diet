@@ -12,6 +12,9 @@ program
   .version(packageJson.version)
   .description(packageJson.description)
   .command(
+    'pkg-deps',
+    'Extract names of dependent packages described in package.json')
+  .command(
     'measure',
     'Collect metrics of each package to be installed actually')
   .command(

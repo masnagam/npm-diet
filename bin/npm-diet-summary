@@ -5,9 +5,7 @@
 
 'use strict';
 
-const fs = require('fs');
-const streamToString = require('stream-to-string');
-const { program, summary } = require('../lib');
+const { program, summary, utils } = require('../lib');
 
 const HELP = `
   Arguments:
@@ -35,15 +33,8 @@ program
     '[analysis]')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
-    const json = await readAnalysisJson(filepath);
+    const json = await utils.readStringFromFileOrStdin(filepath);
     const analysis = JSON.parse(json);
     summary(analysis, options);
   })
   .parse(process.argv);
-
-async function readAnalysisJson(filepath) {
-  if (filepath === undefined) {
-    return await streamToString(process.stdin);
-  }
-  return fs.readFileSync(program.args[0]);
-}
