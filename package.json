@@ -23,6 +23,9 @@
     "del": "^3.0.0",
     "mkdirp": "^0.5.1",
     "ora": "^3.0.0",
-    "stream-to-string": "^1.1.0"
+    "stream-to-string": "^1.1.0",
+    "string-width": "^2.1.1",
+    "window-size": "^1.1.1",
+    "wrap-ansi": "^3.0.1"
   }
 }
