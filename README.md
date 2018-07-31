@@ -84,6 +84,32 @@ $ npm-diet measure commander | jq .
 ...
 ```
 
+Use a `package.json` file for analysis:
+
+```console
+$ cat package.json
+...
+  "dependencies": {
+    "npm-run-all": "^4.1.3",
+    "rimraf": "^2.6.2"
+  }
+}
+$ npm-diet pkg-deps --json package.json | npm-diet measure --stdin | npm-diet summary --top=3
+┌───────────────────────────────────────────────────────────────┐
+│ npm install npm-run-all@"^4.1.3" rimraf@"^2.6.2"              │
+├────────────────────┬─────────────────────┬────────────────────┤
+│ NAME (74 packages) │ SIZE (1.23 MB)      │ NUM OF FILES (578) │
+├────────────────────┼─────────────────────┼────────────────────┤
+│ es-abstract@1.12.0 │ 163.35 KB (12.99 %) │ 40                 │
+├────────────────────┼─────────────────────┼────────────────────┤
+│ npm-run-all@4.1.3  │ 91.28 KB (7.26 %)   │ 30                 │
+├────────────────────┼─────────────────────┼────────────────────┤
+│ semver@5.5.0       │ 57.06 KB (4.54 %)   │ 6                  │
+├────────────────────┼─────────────────────┼────────────────────┤
+│ Sum of the top 3   │ 311.69 KB (24.79 %) │ 76                 │
+└────────────────────┴─────────────────────┴────────────────────┘
+```
+
 ## Data formats
 
 The following formats are under consideration.  So, they may be changed in the
