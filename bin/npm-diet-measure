@@ -15,20 +15,42 @@ const HELP = `
     metrics of each package used for subsequent package size analyzer.  Finally,
     this command formats the analysis results in the JSON format, and outputs it
     to STDOUT.
+
+    This command supports all package specifier syntax that \`npm\` supports.
+
+    In addition, this command supports a special prefix '!'.  The following
+    command replaces 'del' with 'rimraf', and then makes an analysis for the
+    case of installing 'npm-run-all' and 'rimraf':
+
+      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf \!del
+
+    A package specifier followed by '!' is removed from the list which contains
+    package specifiers at that point.  That means the following two commands
+    don't make the same analysis:
+
+      $ npm-diet measure aaa bbb \!bbb
+      $ npm-diet measure aaa \!bbb bbb
+
+    The former makes an analysis for the case of installing only 'aaa'.  On the
+    other hand, the latter makes an analysis for the case of installing 'aaa'
+    and 'bbb'.
 `;
 
 program
   .description(
     'Collect metrics of each installed package')
+  .option(
+    '--stdin',
+    'read package specifiers from STDIN before reading from arguments')
   .arguments(
-    '[package-names...]')
+    '[specs...]')
   .allowUnknownOption()  // for '--no-color'
   .on('--help', () => console.log(HELP))
-  .action(async (names, options) => {
-    if (names.length === 0) {
-      names = JSON.parse(await streamToString(process.stdin));
+  .action(async (specs, options) => {
+    if (options.stdin) {
+      specs = JSON.parse(await streamToString(process.stdin)).concat(specs);
     }
-    const analysis = await measure(names);
+    const analysis = await measure(specs);
     console.log(JSON.stringify(analysis));
   })
   .parse(process.argv);
