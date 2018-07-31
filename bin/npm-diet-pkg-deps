@@ -35,8 +35,7 @@ program
     'include package names in peerDependencies')
   .option(
     '--json',
-    'output in the JSON format',
-    String, ' ')
+    'output in the JSON format')
   .allowUnknownOption()  // for '--no-color'
   .arguments(
     '[package-json]')
