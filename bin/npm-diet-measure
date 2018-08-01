@@ -20,29 +20,29 @@ const HELP = `
 
   Removing packages:
 
-    This command supports a special package specifier suffix '!'.
+    This command supports a special package specifier prefix '_'.
 
     The following command replaces 'del' with 'rimraf', and then makes an
     analysis for the case of installing 'npm-run-all' and 'rimraf':
 
-      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf del!
+      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf _del
 
-    A package specifier suffixed with '!' is removed from a list which contains
+    A package specifier prefixed with '_' is removed from a list which contains
     preceding package specifiers.  That means the following two commands don't
     make the same analysis:
 
-      $ npm-diet measure aaa bbb bbb!
-      $ npm-diet measure aaa bbb! bbb
+      $ npm-diet measure aaa bbb _bbb
+      $ npm-diet measure aaa _bbb bbb
 
     The former makes an analysis for the case of installing only 'aaa'.  On the
     other hand, the latter makes an analysis for the case of installing 'aaa'
     and 'bbb'.
 
-    The version specifier part of the package specifier suffixed with '!' has no
+    The version specifier part of the package specifier suffixed with '_' has no
     effect.  So, the following two commands make the same analysis:
 
-      $ npm-diet measure aaa bbb bbb!
-      $ npm-diet measure aaa bbb bbb@^1.1.0!
+      $ npm-diet measure aaa bbb _bbb
+      $ npm-diet measure aaa bbb _bbb@^1.1.0
 `;
 
 program
