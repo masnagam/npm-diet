@@ -18,22 +18,31 @@ const HELP = `
 
     This command supports all package specifier syntax that \`npm\` supports.
 
-    In addition, this command supports a special prefix '!'.  The following
-    command replaces 'del' with 'rimraf', and then makes an analysis for the
-    case of installing 'npm-run-all' and 'rimraf':
+  Removing packages:
 
-      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf \!del
+    This command supports a special package specifier suffix '!'.
 
-    A package specifier followed by '!' is removed from the list which contains
-    package specifiers at that point.  That means the following two commands
-    don't make the same analysis:
+    The following command replaces 'del' with 'rimraf', and then makes an
+    analysis for the case of installing 'npm-run-all' and 'rimraf':
 
-      $ npm-diet measure aaa bbb \!bbb
-      $ npm-diet measure aaa \!bbb bbb
+      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf del!
+
+    A package specifier suffixed with '!' is removed from a list which contains
+    preceding package specifiers.  That means the following two commands don't
+    make the same analysis:
+
+      $ npm-diet measure aaa bbb bbb!
+      $ npm-diet measure aaa bbb! bbb
 
     The former makes an analysis for the case of installing only 'aaa'.  On the
     other hand, the latter makes an analysis for the case of installing 'aaa'
     and 'bbb'.
+
+    The version specifier part of the package specifier suffixed with '!' has no
+    effect.  So, the following two commands make the same analysis:
+
+      $ npm-diet measure aaa bbb bbb!
+      $ npm-diet measure aaa bbb bbb@^1.1.0!
 `;
 
 program
