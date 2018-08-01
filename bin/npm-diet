@@ -18,6 +18,9 @@ program
     'measure',
     'Collect metrics of each package to be installed actually')
   .command(
+    'delta',
+    'Compute a difference from a baselin analysis')
+  .command(
     'summary',
     'Show a brief summary of an analysis')
   .parse(process.argv);
