@@ -21,6 +21,6 @@ program
     'delta',
     'Compute a difference from a baselin analysis')
   .command(
-    'summary',
+    'show',
     'Show a brief summary of an analysis')
   .parse(process.argv);

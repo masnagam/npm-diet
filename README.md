@@ -27,7 +27,7 @@ See [measure.js](./lib/measure.js).
 Show the top 3 packages installed by `npm install gulp`:
 
 ```console
-$ npm-diet measure gulp | npm-diet summary --top=3
+$ npm-diet measure gulp | npm-diet show --top=3
 ┌──────────────────────────────────────────────────────────────┐
 │ npm install gulp                                             │
 ├──────────────────┬─────────────────────┬─────────────────────┤
@@ -46,7 +46,7 @@ $ npm-diet measure gulp | npm-diet summary --top=3
 Specify multiple packages:
 
 ```console
-$ npm-diet measure mocha chai sinon | npm-diet summary --top=3
+$ npm-diet measure mocha chai sinon | npm-diet show --top=3
 ┌────────────────────────────────────────────────────────────┐
 │ npm install mocha chai sinon                               │
 ├──────────────────┬────────────────────┬────────────────────┤
@@ -96,7 +96,8 @@ $ cat package.json
     "rimraf": "^2.6.2"
   }
 }
-$ npm-diet pkg-deps --json package.json | npm-diet measure --stdin | npm-diet summary --top=3
+$ npm-diet pkg-deps --json package.json | npm-diet measure --stdin | \
+    npm-diet show --top=3
 ┌───────────────────────────────────────────────────────────────┐
 │ npm install npm-run-all@"^4.1.3" rimraf@"^2.6.2"              │
 ├────────────────────┬─────────────────────┬────────────────────┤
@@ -115,7 +116,8 @@ $ npm-diet pkg-deps --json package.json | npm-diet measure --stdin | npm-diet su
 Replace `rimraf` with `del`:
 
 ```console
-$ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin rimraf! del | npm-diet summary --top=3
+$ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin rimraf! del | \
+    npm-diet show --top=3
 ┌───────────────────────────────────────────────────────────────┐
 │ npm install npm-run-all del                                   │
 ├────────────────────┬─────────────────────┬────────────────────┤

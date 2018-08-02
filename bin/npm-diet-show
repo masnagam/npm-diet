@@ -5,7 +5,7 @@
 
 'use strict';
 
-const { program, summary, utils } = require('../lib');
+const { program, show, utils } = require('../lib');
 
 const HELP = `
   Arguments:
@@ -35,6 +35,6 @@ program
   .action(async (filepath, options) => {
     const json = await utils.readStringFromFileOrStdin(filepath);
     const analysis = JSON.parse(json);
-    summary(analysis, options);
+    show(analysis, options);
   })
   .parse(process.argv);
