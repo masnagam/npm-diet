@@ -1,6 +1,6 @@
 # @masnagam/npm-diet
 
-> Tools to help keeping your package slim
+> A tool to help keeping your package slim
 
 ## Install
 
