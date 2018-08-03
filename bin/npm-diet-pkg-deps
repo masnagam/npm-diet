@@ -5,40 +5,46 @@
 
 'use strict';
 
+const path = require('path');
 const lib = require('../lib');
 
 const HELP = `
   Description:
 
-    This command extracts names of dependent packages described in package.json
-    which are loaded from a file or STDIN.
+    This command extracts dependent packages described in package.json which are
+    loaded from a file or STDIN.
 
-  Usages:
+    The result is formatted as a JSON array of package specifiers, and output to
+    STDOUT.
 
-    List names of dependent packages including devDependencies:
+  Relative paths:
 
-      $ npm-diet pkg-deps --dev package.json
+    Relative paths which start with 'file:' are resolved into absolute paths
+    using the package root path as the base path.
 
-    Make an analysis based on the dependencies property in package.json:
+  Examples:
 
-      $ cat package.json | npm-diet pkg-deps --json | npm-diet measure
+    Output dependent packages including devDependencies:
+
+      $ npm-diet pkg-deps --dev path/to/package.json
+
+    Make an analysis of dependent packages described in package.json:
+
+      $ npm-diet pkg-deps path/to/package.json | npm-diet measure --stdin
 `;
 
 lib.cli.program
   .description(
-    'Extract names of dependent packages described in package.json')
+    'Extract dependent packages described in package.json')
   .option(
     '--dev',
     'include package names in devDependencies')
   .option(
     '--peer',
     'include package names in peerDependencies')
-  .option(
-    '--json',
-    'output in the JSON format')
   .allowUnknownOption()  // for '--no-color'
   .arguments(
-    '[package-json]')
+    '<package-json>')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
     const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
@@ -50,20 +56,8 @@ lib.cli.program
     if (options.peer && packageJson.peerDependencies) {
       deps = Object.assign({}, deps, packageJson.peerDependencies);
     }
-    const names = Object.keys(deps).map((name) => {
-      const spec = deps[name].trim();
-      if (spec.match(/^git(\+ssh|\+https?|\+file)?:\/\//i)) {
-        return spec;
-      }
-      if (spec.length === 0  || spec === "*") {
-        return name;
-      }
-      return `${name}@${spec}`;
-    });
-    if (options.json) {
-      console.log(JSON.stringify(names));
-      return;
-    }
-    console.log(names.join('\n'));
+    const pkgDir = path.dirname(path.resolve(filepath));
+    const specs = lib.cli.utils.convertDepsToSpecs(deps, pkgDir);
+    console.log(JSON.stringify(specs));
   })
   .parse(process.argv);
