@@ -9,7 +9,7 @@ const { promisify } = require('util');
 
 const fs = require('fs');
 const streamToString = require('stream-to-string');
-const { program, delta } = require('../lib');
+const lib = require('../lib');
 
 const readFile = promisify(fs.readFile);
 
@@ -17,7 +17,7 @@ const HELP = `
   Description:
 `;
 
-program
+lib.cli.program
   .description(
     'Compute a difference from a baselin analysis')
   .option(
@@ -55,7 +55,7 @@ program
     }
     const baseline = JSON.parse(baselineJson);
     const analysis = JSON.parse(analysisJson);
-    const deltaAnalysis = delta(baseline, analysis);
+    const deltaAnalysis = lib.analyze.delta(baseline, analysis);
     console.log(JSON.stringify(deltaAnalysis));
   })
   .parse(process.argv);

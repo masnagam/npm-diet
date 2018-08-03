@@ -5,7 +5,7 @@
 
 'use strict';
 
-const { program, utils } = require('../lib');
+const lib = require('../lib');
 
 const HELP = `
   Description:
@@ -24,7 +24,7 @@ const HELP = `
       $ cat package.json | npm-diet pkg-deps --json | npm-diet measure
 `;
 
-program
+lib.cli.program
   .description(
     'Extract names of dependent packages described in package.json')
   .option(
@@ -41,7 +41,7 @@ program
     '[package-json]')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
-    const json = await utils.readStringFromFileOrStdin(filepath);
+    const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
     const packageJson = JSON.parse(json);
     let deps = packageJson.dependencies;
     if (options.dev && packageJson.devDependencies) {

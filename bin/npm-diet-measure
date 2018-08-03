@@ -6,7 +6,7 @@
 'use strict';
 
 const streamToString = require('stream-to-string');
-const { program, measure } = require('../lib');
+const lib = require('../lib');
 
 const HELP = `
   Description:
@@ -45,7 +45,7 @@ const HELP = `
       $ npm-diet measure aaa bbb _bbb@^1.1.0
 `;
 
-program
+lib.cli.program
   .description(
     'Collect metrics of each installed package')
   .option(
@@ -59,7 +59,7 @@ program
     if (options.stdin) {
       specs = JSON.parse(await streamToString(process.stdin)).concat(specs);
     }
-    const analysis = await measure(specs);
+    const analysis = await lib.analyze.measure(specs);
     console.log(JSON.stringify(analysis));
   })
   .parse(process.argv);

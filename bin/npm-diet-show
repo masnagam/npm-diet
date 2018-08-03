@@ -5,7 +5,7 @@
 
 'use strict';
 
-const { program, show, utils } = require('../lib');
+const lib = require('../lib');
 
 const HELP = `
   Arguments:
@@ -18,7 +18,7 @@ const HELP = `
     the size of each package in a table format.
 `;
 
-program
+lib.cli.program
   .description(
     'Show a brief summary of an analysis')
   .option(
@@ -33,8 +33,8 @@ program
     '[analysis]')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
-    const json = await utils.readStringFromFileOrStdin(filepath);
+    const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
     const analysis = JSON.parse(json);
-    show(analysis, options);
+    lib.show(analysis, options);
   })
   .parse(process.argv);
