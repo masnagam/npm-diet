@@ -51,14 +51,14 @@ lib.cli.program
       deps = Object.assign({}, deps, packageJson.peerDependencies);
     }
     const names = Object.keys(deps).map((name) => {
-      const spec = deps[name];
+      const spec = deps[name].trim();
       if (spec.match(/^git(\+ssh|\+https?|\+file)?:\/\//i)) {
         return spec;
       }
-      if (spec === "*") {
+      if (spec.length === 0  || spec === "*") {
         return name;
       }
-      return `${name}@"${spec}"`;
+      return `${name}@${spec}`;
     });
     if (options.json) {
       console.log(JSON.stringify(names));
