@@ -25,7 +25,7 @@ const HELP = `
     The following command replaces 'del' with 'rimraf', and then makes an
     analysis for the case of installing 'npm-run-all' and 'rimraf':
 
-      $ echo '["npm-run-all", "del"]' | npm-diet measure --stdin rimraf _del
+      $ echo '["npm-run-all","del"]' | npm-diet measure --stdin rimraf _del
 
     A package specifier prefixed with '_' is removed from a list which contains
     preceding package specifiers.  That means the following two commands don't

@@ -19,43 +19,43 @@ const HELP = `
 
 lib.cli.program
   .description(
-    'Compute a difference from a baselin analysis')
+    'Compute a difference from a baselin package set')
   .option(
     '--stdin',
     'read package specifiers from STDIN before reading from arguments')
   .arguments(
-    '[baseline] [analysis]')
+    '[baseline] [subject]')
   .allowUnknownOption()  // for '--no-color'
   .on('--help', () => console.log(HELP))
-  .action(async (baselineFile, analysisFile, options) => {
-    let baselineJson, analysisJson;
+  .action(async (baselineFile, subjectFile, options) => {
+    let baselineJson, subjectJson;
     if (options.stdin) {
-      [baselineJson, analysisJson] =
+      [baselineJson, subjectJson] =
         (await streamToString(process.stdin)).split('\n');
       if (baselineJson === undefined) {
         throw new Error('no baseline data read from STDIN');
       }
       if (baselineFile) {
         if (baselineFile) {
-          analysisJson = await readFile(baselineFile, { encoding: 'utf8' });
+          subjectJson = await readFile(baselineFile, { encoding: 'utf8' });
         }
       }
-      if (analysisJson === undefined) {
-        throw new Error('no analysis data')
+      if (subjectJson === undefined) {
+        throw new Error('no subject data')
       }
     } else {
       if (baselineFile === undefined) {
         throw new Error('no baseline file specified in arguments');
       }
-      if (analysisFile === undefined) {
-        throw new Error('no analysis file specified in arguments');
+      if (subjectFile === undefined) {
+        throw new Error('no subject file specified in arguments');
       }
       baselineJson = await readFile(baselineFile,{ encoding: 'utf8' });
-      analysisJson = await readFile(analysisFile,{ encoding: 'utf8' });
+      subjectJson = await readFile(subjectFile,{ encoding: 'utf8' });
     }
     const baseline = JSON.parse(baselineJson);
-    const analysis = JSON.parse(analysisJson);
-    const deltaAnalysis = lib.analyze.delta(baseline, analysis);
+    const subject = JSON.parse(subjectJson);
+    const deltaAnalysis = lib.analyze.delta(baseline, subject);
     console.log(JSON.stringify(deltaAnalysis));
   })
   .parse(process.argv);

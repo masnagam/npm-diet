@@ -29,7 +29,7 @@ Show the top 3 packages installed by `npm install gulp`:
 ```console
 $ npm-diet measure gulp | npm-diet show --top=3
 ┌──────────────────────────────────────────────────────────────┐
-│ npm install gulp                                             │
+│ gulp                                                         │
 ├──────────────────┬─────────────────────┬─────────────────────┤
 │ PACKAGE (253)    │ SIZE (4.83 MB)      │ NUM OF FILES (1520) │
 ├──────────────────┼─────────────────────┼─────────────────────┤
@@ -48,7 +48,7 @@ Specify multiple packages:
 ```console
 $ npm-diet measure mocha chai sinon | npm-diet show --top=3
 ┌────────────────────────────────────────────────────────────┐
-│ npm install mocha chai sinon                               │
+│ mocha chai sinon                                           │
 ├──────────────────┬────────────────────┬────────────────────┤
 │ PACKAGE (42)     │ SIZE (8.65 MB)     │ NUM OF FILES (428) │
 ├──────────────────┼────────────────────┼────────────────────┤
@@ -67,22 +67,26 @@ Process the analysis result with [jq]:
 ```console
 $ npm-diet measure commander | jq .
 {
-  "subject": "npm install commander",
-  "metrics": {
-    "numPkgs": 1,
-    "size": 61750,
-    "numFiles": 6
-  },
-  "details": {
-    "packages": [
-      {
-        "name": "commander",
-        "size": 61750,
-        "files": [
-          {
-            "path": "CHANGELOG.md",
-            "size": 10068
-          },
+  "type": "measure",
+  "specs": [
+    {
+      "name": "commander",
+      "detail": "*"
+    }
+  ],
+  "numPkgs": 1,
+  "size": 61750,
+  "numFiles": 6,
+  "packages": [
+    {
+      "name": "commander",
+      "version": "2.16.0",
+      "size": 61750,
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "size": 10068
+        },
 ...
 ```
 
@@ -96,30 +100,30 @@ $ cat package.json
     "rimraf": "^2.6.2"
   }
 }
-$ npm-diet pkg-deps --json package.json | npm-diet measure --stdin | \
+$ npm-diet pkg-deps package.json | npm-diet measure --stdin | \
     npm-diet show --top=3
 ┌───────────────────────────────────────────────────────────────┐
-│ npm install npm-run-all@"^4.1.3" rimraf@"^2.6.2"              │
+│ npm-run-all rimraf                                            │
 ├────────────────────┬─────────────────────┬────────────────────┤
 │ PACKAGE (74)       │ SIZE (1.23 MB)      │ NUM OF FILES (578) │
 ├────────────────────┼─────────────────────┼────────────────────┤
 │ es-abstract@1.12.0 │ 163.35 KB (12.99 %) │ 40                 │
 ├────────────────────┼─────────────────────┼────────────────────┤
-│ npm-run-all@4.1.3  │ 91.25 KB (7.26 %)   │ 30                 │
+│ npm-run-all@4.1.3  │ 91.32 KB (7.26 %)   │ 30                 │
 ├────────────────────┼─────────────────────┼────────────────────┤
 │ semver@5.5.0       │ 57.06 KB (4.54 %)   │ 6                  │
 ├────────────────────┼─────────────────────┼────────────────────┤
-│ Sum of the top 3   │ 311.66 KB (24.79 %) │ 76                 │
+│ Sum of the top 3   │ 311.73 KB (24.79 %) │ 76                 │
 └────────────────────┴─────────────────────┴────────────────────┘
 ```
 
 Replace `rimraf` with `del`:
 
 ```console
-$ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin rimraf! del | \
+$ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin _rimraf del | \
     npm-diet show --top=3
 ┌───────────────────────────────────────────────────────────────┐
-│ npm install npm-run-all del                                   │
+│ npm-run-all del                                               │
 ├────────────────────┬─────────────────────┬────────────────────┤
 │ PACKAGE (87)       │ SIZE (1.30 MB)      │ NUM OF FILES (628) │
 ├────────────────────┼─────────────────────┼────────────────────┤
@@ -133,20 +137,56 @@ $ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin rimraf! del | \
 └────────────────────┴─────────────────────┴────────────────────┘
 ```
 
+Show delta values between `livereload` and `tiny-lr`:
+
+```console
+$ (npm-diet measure livereload ; npm-diet measure tiny-lr) | \
+    npm-diet delta --stdin | npm-diet show
+┌────────────────────────────────────────────────────────────────────┐
+│ BASELINE: livereload                                               │
+├────────────────────────────────────────────────────────────────────┤
+│ SUBJECT: tiny-lr                                                   │
+├──────────┬─────────────────┬─────────────────────┬─────────────────┤
+│          │ PACKAGE         │ SIZE                │ NUM OF FILES    │
+├──────────┼─────────────────┼─────────────────────┼─────────────────┤
+│ BASELINE │ 131             │ 3.76 MB             │ 973             │
+├──────────┼─────────────────┼─────────────────────┼─────────────────┤
+│ SUBJECT  │ 19              │ 744.88 KB           │ 227             │
+├──────────┼─────────────────┼─────────────────────┼─────────────────┤
+│ DELTA    │ -112 (-85.50 %) │ -3.03 MB (-80.64 %) │ -746 (-76.67 %) │
+└──────────┴─────────────────┴─────────────────────┴─────────────────┘
+...
+```
+
 ## Data formats
 
 The following formats are under consideration.  So, they may be changed in the
 near future.
 
-### Analysis
+### Measure Analysis
 
 ```js
 {
-  "subject": "npm install commander",  // arbitary text
-  "metrics": { ... },                  // metrics
-  "details": {
-    "packages:" [ ... ]                // list of packages
-  }
+  "type": "measure",
+  "specs": [ ... ],    // list of package specifiers
+  "numPkgs": 1,        // the number of packages
+  "size": 61750,       // sum of package sizes
+  "numFiles": 6,       // sum of the numbers of files
+  "packages": [ ... ]  // list of packages
+}
+```
+
+### Delta Analysis
+
+```js
+{
+  "type": "delta",
+  "baseline": { ... },  // analysis of the baseline package set
+  "subject": { ... },   // analysis of the subject package set
+  "delta": { ... },     // delta values (metrics withtout `packages`)
+  "increase": { ... },  // metrics of added packages
+  "decrease": { ... },  // metrics of removed packages
+  "common": { ... }     // metrics of common packages
 }
 ```
 
@@ -156,9 +196,10 @@ Subsequent analysers may add other metrics.
 
 ```js
 {
-  "numPkgs": 1,   // the number of packages
-  "size": 61750,  // sum of package sizes
-  "numFiles": 6,  // sum of the numbers of files
+  "numPkgs": 1,        // the number of packages
+  "size": 61750,       // sum of package sizes
+  "numFiles": 6,       // sum of the numbers of files
+  "packages": [ ... ]  // list of packages
 }
 ```
 
@@ -166,10 +207,10 @@ Subsequent analysers may add other metrics.
 
 ```js
 {
-  "name": "commander",    // package name
-  "size": 61750,          // sum of file sizes
-  "files": [ ... ],       // list of files
-  "packageJson": { ... }  // contents of package.json
+  "name": "commander",  // name
+  "version": "2.16.2",  // version
+  "size": 61750,        // sum of file sizes
+  "files": [ ... ]      // list of files
 }
 ```
 
