@@ -14,7 +14,10 @@
     "size"
   ],
   "author": "Masayuki Nagamachi <masayuki.nagamachi@gmail.com>",
-  "repository": "masnagam/npm-diet",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masnagam/npm-diet.git"
+  },
   "license": "MIT",
   "dependencies": {
     "cli-table3": "^0.5.1",
@@ -29,5 +32,17 @@
     "string-width": "^2.1.1",
     "window-size": "^1.1.1",
     "wrap-ansi": "^3.0.1"
-  }
+  },
+  "files": [
+    "bin/*",
+    "lib/**/*.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/masnagam/npm-diet/issues"
+  },
+  "homepage": "https://github.com/masnagam/npm-diet#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {}
 }
