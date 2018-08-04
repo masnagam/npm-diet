@@ -5,6 +5,11 @@
 
 'use strict';
 
+const { promisify } = require('util');
+
+const EventEmittor = require('events');
+const ora = require('ora');
+const rimraf = promisify(require('rimraf'));
 const streamToString = require('stream-to-string');
 const lib = require('../lib');
 
@@ -59,7 +64,28 @@ lib.cli.program
     if (options.stdin) {
       specs = JSON.parse(await streamToString(process.stdin)).concat(specs);
     }
-    const analysis = await lib.analyze.measure(specs);
+
+    const spinner = ora();
+    const emittor = new EventEmittor();
+    emittor.on('prepare', () => {
+      spinner.start('Preparing a working dir for installing in temporal...');
+    });
+    emittor.on('install', (args) => {
+      spinner.start(`Installing ${args.join(' ')}...`);
+    });
+    emittor.on('analyze', () => {
+      spinner.start('Analyzing packages...');
+    });
+    emittor.on('done', () => {
+      spinner.stop();
+    });
+    emittor.on('error', (error) => {
+      spinner.fail(error);
+    });
+
+    const workdir = await lib.cli.utils.makeWorkDir();
+    const analysis = await lib.analyze.measure(specs, workdir, emittor);
     console.log(JSON.stringify(analysis));
+    await rimraf(workdir);
   })
   .parse(process.argv);
