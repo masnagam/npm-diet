@@ -21,6 +21,9 @@ lib.cli.program
     'delta',
     'Compute a difference from a baselin analysis')
   .command(
+    'summary',
+    'Show a brief summary of an analysis')
+  .command(
     'show',
     'Show a brief summary of an analysis')
   .parse(process.argv);

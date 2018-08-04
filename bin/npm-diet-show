@@ -6,35 +6,14 @@
 'use strict';
 
 const lib = require('../lib');
-
-const HELP = `
-  Arguments:
-
-    analysis  JSON file which contains analysis results
-
-  Description:
-
-    This command loads an analysis JSON data from a file or STDIN, and shows
-    the size of each package in a table format.
-`;
+const packageJson = require('../package.json');
 
 lib.cli.program
-  .description(
-    'Show a brief summary of an analysis')
-  .option(
-    '--top [num]',
-    'show only the top `num` packages',
-    parseInt)
-  .option(
-    '--ascii',
-    'show as ASCII-art table')
-  .allowUnknownOption()  // for '--no-color'
-  .arguments(
-    '[analysis]')
-  .on('--help', () => console.log(HELP))
-  .action(async (filepath, options) => {
-    const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
-    const analysis = JSON.parse(json);
-    lib.show(analysis, options);
-  })
+  .description('Show details of an analysis')
+  .command(
+    'measure',
+    'Show details of a measure analysis')
+  .command(
+    'delta',
+    'Show details of a delta analysis')
   .parse(process.argv);
