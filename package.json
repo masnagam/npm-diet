@@ -50,5 +50,8 @@
     "memfs": "^2.9.4",
     "nyc": "^12.0.2",
     "proxyquire": "^2.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
