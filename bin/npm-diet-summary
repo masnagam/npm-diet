@@ -15,7 +15,7 @@ const HELP = `
   Description:
 
     This command loads an analysis JSON data from a file or STDIN, and shows
-    the size of each package in a table format.
+    a brief summary of the analysis result.
 `;
 
 lib.cli.program
