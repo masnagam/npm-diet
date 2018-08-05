@@ -2,9 +2,25 @@
 
 > A tool to help keeping your package slim
 
-## Install
+[![npm version](https://badge.fury.io/js/%40masnagam%2Fnpm-diet.svg)](https://badge.fury.io/js/%40masnagam%2Fnpm-diet)
+[![Build Status](https://travis-ci.org/masnagam/npm-diet.svg?branch=master)](https://travis-ci.org/masnagam/npm-diet)
+[![Build status](https://ci.appveyor.com/api/projects/status/0rpjvxtbho32b1nh/branch/master?svg=true)](https://ci.appveyor.com/project/masnagam/npm-diet/branch/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d683292612b847a5a2e8e2c28b122d68)](https://www.codacy.com/app/masnagam/npm-diet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=masnagam/npm-diet&amp;utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/033bf64f11530c968a41/maintainability)](https://codeclimate.com/github/masnagam/npm-diet/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/033bf64f11530c968a41/test_coverage)](https://codeclimate.com/github/masnagam/npm-diet/test_coverage)
 
-Using NPM:
+`npm-diet` is a CLI tool comprised of several commands which can be used for
+analyzing the total size of NPM packages installed.
+
+`npm-diet` can not be used for analyzing the size of a web application bundle.
+Try to use the following tools for such purpose.
+
+* [package-size](https://www.npmjs.com/package/package-size)
+* [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer)
+* [bundlephobia.com](https://bundlephobia.com/)
+* You can search other tools using `npm search`...
+
+## Installation
 
 ```console
 $ npm install -g @masnagam/npm-diet
@@ -26,8 +42,6 @@ There are some limitations at this moment:
 
 * `npm-diet measure` does not take account of sizes of directories
 * `npm-diet measure` does not compute actual sizes on disk
-
-`npm-diet measure` does not compute the bundle size of packages.
 
 ## Typical usages
 
@@ -336,10 +350,7 @@ Subsequent analysers may add other metrics.
 ## Great predecessors
 
 * [cost-of-modules] - Find out which of your dependencies is slowing you down
-
-## Many thanks
-
-This tool is built upon many creative packages.
+* [package-size-analyzer] - Package Size Analyzer when using npm package
 
 ## License
 
@@ -348,3 +359,4 @@ file for details.
 
 [jq]: https://stedolan.github.io/jq/
 [cost-of-modules]: https://github.com/siddharthkp/cost-of-modules
+[package-size-analyzer]: https://www.npmjs.com/package/package-size-analyzer
