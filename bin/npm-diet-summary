@@ -31,9 +31,11 @@ lib.cli.program
   .action(async (filepath, options) => {
     const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
     let analysis = JSON.parse(json);
-    const { numPkgs, size } = lib.analyze.duplicate(analysis);
-    analysis.numDups = numPkgs;
-    analysis.sizeDups = size;
+    if (analysis.type === 'measure') {
+      const { numPkgs, size } = lib.analyze.duplicate(analysis);
+      analysis.numDups = numPkgs;
+      analysis.sizeDups = size;
+    }
     lib.show.summary(analysis, options);
   })
   .parse(process.argv);
