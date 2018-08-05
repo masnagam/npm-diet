@@ -31,6 +31,10 @@ lib.cli.program
     '-C, --no-common-table',
     'hide the common table')
   .option(
+    '-t, --top <num>',
+    'show only the top `num` packages in each table',
+    parseInt)
+  .option(
     '-i, --increase-top <num>',
     'show only the top `num` packages in the increase table',
     parseInt)
@@ -49,6 +53,17 @@ lib.cli.program
     '[analysis]')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
+    if (options.top !== undefined) {
+      if (options.increaseTop === undefined) {
+        options.increaseTop = options.top;
+      }
+      if (options.decreaseTop === undefined) {
+        options.decreaseTop = options.top;
+      }
+      if (options.commonTop === undefined) {
+        options.commonTop = options.top;
+      }
+    }
     const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
     const analysis = JSON.parse(json);
     if (analysis.type !== 'delta') {
