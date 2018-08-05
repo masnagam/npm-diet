@@ -18,6 +18,9 @@ lib.cli.program
     'measure',
     'Collect metrics of each package to be installed actually')
   .command(
+    'dup',
+    'Collect duplicate packages in an analysis')
+  .command(
     'delta',
     'Compute a difference from a baselin analysis')
   .command(

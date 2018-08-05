@@ -14,25 +14,19 @@ const HELP = `
 
   Description:
 
-    This command loads a measure analysis JSON data from a file or STDIN, and
-    shows the size of each package in a table format.
+    This command loads an analysis JSON data from a file or STDIN, and collects
+    duplicate packages.
+
+    Finally, this command outputs the analysis result to STDOUT in the JSON
+    format.
 `;
 
 lib.cli.program
   .description(
-    'Show details of a measure analysis')
-  .option(
-    '-t, --top <num>',
-    'show only the top `num` packages',
-    parseInt)
-  .option(
-    '--ascii',
-    'show as ASCII-art table')
-  .option(
-    '--package-path',
-    'Show the path of each package')
+    'Collect duplicate packages in an analysis')
   .arguments(
     '[analysis]')
+  .allowUnknownOption()  // for '--no-color'
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
     const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
@@ -40,6 +34,7 @@ lib.cli.program
     if (analysis.type !== 'measure') {
       throw new Error('invalid analysis type');
     }
-    lib.show.measure.details(analysis, options);
+    const dups = lib.analyze.duplicate(analysis, options);
+    console.log(JSON.stringify(dups));
   })
   .parse(process.argv);

@@ -34,14 +34,31 @@ There are some limitations at this moment:
 Show a brief summary of an analysis:
 
 ```console
-$ npm-diet measure livereload | npm-diet summary
-┌─────────────────────────────────────────────┐
-│ livereload                                  │
-├─────────────────┬────────────┬──────────────┤
-│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │
-├─────────────────┼────────────┼──────────────┤
-│ 131             │ 3.76 MB    │ 973          │
-└─────────────────┴────────────┴──────────────┘
+$ npm-diet measure del | npm-diet summary
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│ del                                                                                   │
+├─────────────────┬────────────┬──────────────┬─────────────┬───────────────────────────┤
+│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │ NUM OF DUPS │ SIZE OF DUPS (% OF TOTAL) │
+├─────────────────┼────────────┼──────────────┼─────────────┼───────────────────────────┤
+│ 26              │ 244.00 KB  │ 112          │ 2           │ 14.60 KB (5.99 %)         │
+└─────────────────┴────────────┴──────────────┴─────────────┴───────────────────────────┘
+```
+
+Show details of duplicates:
+
+```console
+$ npm-diet measure del | npm-diet show dup
+┌────────────────────────────────────────────────────┐
+│ Duplicates of pify                                 │
+├────────────┬────────────────────────┬──────────────┤
+│ PACKAGE    │ SIZE (% OF TOTAL DUPS) │ NUM OF FILES │
+├────────────┼────────────────────────┼──────────────┤
+│ pify@3.0.0 │ 7.80 KB (53.39 %)      │ 4            │
+├────────────┼────────────────────────┼──────────────┤
+│ pify@2.3.0 │ 6.81 KB (46.61 %)      │ 4            │
+├────────────┼────────────────────────┼──────────────┤
+│ TOTAL 2    │ 14.60 KB (100.00 %)    │ 8            │
+└────────────┴────────────────────────┴──────────────┘
 ```
 
 Show the top 3 packages in descending order of size:
@@ -69,13 +86,13 @@ Specify multiple packages:
 
 ```console
 $ npm-diet measure mocha chai sinon | npm-diet summary
-┌─────────────────────────────────────────────┐
-│ mocha chai sinon                            │
-├─────────────────┬────────────┬──────────────┤
-│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │
-├─────────────────┼────────────┼──────────────┤
-│ 42              │ 8.65 MB    │ 428          │
-└─────────────────┴────────────┴──────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│ mocha chai sinon                                                                      │
+├─────────────────┬────────────┬──────────────┬─────────────┬───────────────────────────┤
+│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │ NUM OF DUPS │ SIZE OF DUPS (% OF TOTAL) │
+├─────────────────┼────────────┼──────────────┼─────────────┼───────────────────────────┤
+│ 42              │ 8.65 MB    │ 428          │ 0           │ 0 B (0.00 %)              │
+└─────────────────┴────────────┴──────────────┴─────────────┴───────────────────────────┘
 ```
 
 Process the analysis result with [jq]:
@@ -109,13 +126,13 @@ $ cat package.json
 }
 
 $ npm-diet pkg-deps package.json | npm-diet measure --stdin | npm-diet summary
-┌─────────────────────────────────────────────┐
-│ npm-run-all rimraf                          │
-├─────────────────┬────────────┬──────────────┤
-│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │
-├─────────────────┼────────────┼──────────────┤
-│ 74              │ 1.23 MB    │ 578          │
-└─────────────────┴────────────┴──────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│ npm-run-all rimraf                                                                    │
+├─────────────────┬────────────┬──────────────┬─────────────┬───────────────────────────┤
+│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │ NUM OF DUPS │ SIZE OF DUPS (% OF TOTAL) │
+├─────────────────┼────────────┼──────────────┼─────────────┼───────────────────────────┤
+│ 74              │ 1.23 MB    │ 578          │ 0           │ 0 B (0.00 %)              │
+└─────────────────┴────────────┴──────────────┴─────────────┴───────────────────────────┘
 ```
 
 Replace `rimraf` with `del`:
@@ -123,13 +140,13 @@ Replace `rimraf` with `del`:
 ```console
 $ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin _rimraf del | \
     npm-diet summary
-┌─────────────────────────────────────────────┐
-│ npm-run-all del                             │
-├─────────────────┬────────────┬──────────────┤
-│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │
-├─────────────────┼────────────┼──────────────┤
-│ 87              │ 1.30 MB    │ 628          │
-└─────────────────┴────────────┴──────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│ npm-run-all del                                                                       │
+├─────────────────┬────────────┬──────────────┬─────────────┬───────────────────────────┤
+│ NUM OF PACKAGES │ TOTAL SIZE │ NUM OF FILES │ NUM OF DUPS │ SIZE OF DUPS (% OF TOTAL) │
+├─────────────────┼────────────┼──────────────┼─────────────┼───────────────────────────┤
+│ 87              │ 1.30 MB    │ 628          │ 2           │ 14.64 KB (1.10 %)         │
+└─────────────────┴────────────┴──────────────┴─────────────┴───────────────────────────┘
 ```
 
 Show delta values between two package sets:
@@ -249,6 +266,28 @@ changed in the near future.
 }
 ```
 
+### Duplicate Analysis
+
+```js
+{
+  "type": "duplicate",
+  "specs": [ ... ],      // list of package specifiers
+  "numPkgs": 2,          // the number of duplicate packages
+  "size": 14955,         // sum of duplicate sizes
+  "numFiles": 8,         // sum of the numbers of files
+  "duplicates": [ ... ]  // list of duplicates
+}
+```
+
+### Package Specifier
+
+```js
+{
+  "name": "@masnagam/npm-diet",  // package name
+  "detail": "*"                  // semver, url or local path
+}
+```
+
 ### Metrics
 
 Subsequent analysers may add other metrics.
@@ -258,6 +297,17 @@ Subsequent analysers may add other metrics.
   "numPkgs": 1,        // the number of packages
   "size": 61750,       // sum of package sizes
   "numFiles": 6,       // sum of the numbers of files
+  "packages": [ ... ]  // list of packages
+}
+```
+
+### Duplicate
+
+```js
+{
+  "name": "pify",      // name
+  "size": 14955,       // sum of duplicate sizes
+  "numFiles": 8,       // sum of the number of files
   "packages": [ ... ]  // list of packages
 }
 ```

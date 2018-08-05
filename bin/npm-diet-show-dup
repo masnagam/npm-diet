@@ -10,30 +10,40 @@ const lib = require('../lib');
 const HELP = `
   Arguments:
 
-    analysis  JSON file which contains an analysis (optional)
+    analysis  JSON file which contains a measure or duplicate analysis
+              (optional)
 
   Description:
 
     This command loads an analysis JSON data from a file or STDIN, and shows
-    the size of each package in a table format.
+    details of duplicate packages in a table format.
 `;
 
 lib.cli.program
   .description(
-    'Show a brief summary of an analysis')
+    'Show details of duplicate packages')
+  .option(
+    '-t, --top <num>',
+    'show only the top `num` packages',
+    parseInt)
   .option(
     '--ascii',
     'show as ASCII-art table')
-  .allowUnknownOption()  // for '--no-color'
+  .option(
+    '--package-path',
+    'Show the path of each package')
   .arguments(
     '[analysis]')
   .on('--help', () => console.log(HELP))
   .action(async (filepath, options) => {
     const json = await lib.cli.utils.readStringFromFileOrStdin(filepath);
     let analysis = JSON.parse(json);
-    const { numPkgs, size } = lib.analyze.duplicate(analysis);
-    analysis.numDups = numPkgs;
-    analysis.sizeDups = size;
-    lib.show.summary(analysis, options);
+    if (analysis.type === 'measure') {
+      analysis = lib.analyze.duplicate(analysis);
+    }
+    if (analysis.type !== 'duplicate') {
+      throw new Error('invalid analysis type');
+    }
+    lib.show.duplicate.details(analysis, options);
   })
   .parse(process.argv);

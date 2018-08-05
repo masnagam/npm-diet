@@ -10,7 +10,7 @@ const lib = require('../lib');
 const HELP = `
   Arguments:
 
-    analysis  JSON file which contains a delta analysis
+    analysis  JSON file which contains a delta analysis (optional)
 
   Description:
 
