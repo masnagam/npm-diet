@@ -15,6 +15,20 @@ const readFile = promisify(fs.readFile);
 
 const HELP = `
   Description:
+
+    This command computes delta values between two analyses, and outputs a
+    JSON-formatted analysis result to STDOUT.
+
+    Analyses can be loaded from STDIN and/or files.  The following commands make
+    the same result.
+
+      $ (npm-diet measure chalk ; npm-diet measure colors) | \\
+          npm-diet delta --stdin
+      $ npm-diet measure chalk | npm-diet delta --stdin colors.measure.json
+      $ npm-diet delta chalk.measure.json colors.measure.json
+
+    In the all cases above, this command uses the analysis result of 'chalk' as
+    the baseline values.
 `;
 
 lib.cli.program
