@@ -7,7 +7,7 @@
     "npm-diet": "bin/npm-diet"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test nyc jasmine"
   },
   "keywords": [
     "package",
@@ -44,5 +44,11 @@
   "directories": {
     "lib": "lib"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "jasmine": "^3.1.0",
+    "memfs": "^2.9.4",
+    "nyc": "^12.0.2",
+    "proxyquire": "^2.0.1"
+  }
 }

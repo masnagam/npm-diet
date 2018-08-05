@@ -7,7 +7,7 @@
 
 const { promisify } = require('util');
 
-const EventEmittor = require('events');
+const EventEmitter = require('events');
 const ora = require('ora');
 const rimraf = promisify(require('rimraf'));
 const streamToString = require('stream-to-string');
@@ -66,26 +66,28 @@ lib.cli.program
     }
 
     const spinner = ora();
-    const emittor = new EventEmittor();
-    emittor.on('prepare', () => {
+    const emitter = new EventEmitter();
+    emitter.on('prepare', () => {
       spinner.start('Preparing a working dir for installing in temporal...');
     });
-    emittor.on('install', (args) => {
+    emitter.on('install', (args) => {
       spinner.start(`Installing ${args.join(' ')}...`);
     });
-    emittor.on('analyze', () => {
+    emitter.on('analyze', () => {
       spinner.start('Analyzing packages...');
     });
-    emittor.on('done', () => {
+    emitter.on('done', () => {
       spinner.stop();
-    });
-    emittor.on('error', (error) => {
-      spinner.fail(error);
     });
 
     const workdir = await lib.cli.utils.makeWorkDir();
-    const analysis = await lib.analyze.measure(specs, workdir, emittor);
-    console.log(JSON.stringify(analysis));
-    await rimraf(workdir);
+    try {
+      const analysis = await lib.analyze.measure(specs, workdir, emitter);
+      console.log(JSON.stringify(analysis));
+    } catch (error) {
+      spinner.fail(error);
+    } finally {
+      await rimraf(workdir);
+    }
   })
   .parse(process.argv);
