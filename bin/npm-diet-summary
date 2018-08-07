@@ -21,10 +21,6 @@ const HELP = `
 lib.cli.program
   .description(
     'Show a brief summary of an analysis')
-  .option(
-    '--ascii',
-    'show as ASCII-art table')
-  .allowUnknownOption()  // for '--no-color'
   .arguments(
     '[analysis]')
   .on('--help', () => console.log(HELP))

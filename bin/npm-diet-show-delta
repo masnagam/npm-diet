@@ -46,9 +46,6 @@ lib.cli.program
     '-c, --common-top <num>',
     'show only the top `num` packages in the increase table',
     parseInt)
-  .option(
-    '--ascii',
-    'show as ASCII-art table')
   .arguments(
     '[analysis]')
   .on('--help', () => console.log(HELP))

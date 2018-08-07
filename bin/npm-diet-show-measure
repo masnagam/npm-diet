@@ -26,9 +26,6 @@ lib.cli.program
     'show only the top `num` packages',
     parseInt)
   .option(
-    '--ascii',
-    'show as ASCII-art table')
-  .option(
     '--package-path',
     'Show the path of each package')
   .arguments(
