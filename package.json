@@ -1,6 +1,6 @@
 {
   "name": "@masnagam/npm-diet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A tool to help keeping your package slim",
   "main": "lib/index.js",
   "bin": {
