@@ -1,3 +1,7 @@
+## 0.2.1 (2018-08-08)
+
+* fix: result was shown twice ([e43f685](https://github.com/masnagam/npm-diet/commit/e43f685))
+
 ## 0.2.0 (2018-08-08)
 
 * refactor: remove unused packages ([9dd4a30](https://github.com/masnagam/npm-diet/commit/9dd4a30))
