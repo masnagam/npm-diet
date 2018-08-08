@@ -49,9 +49,9 @@ Show a brief summary of an analysis:
 
 ```console
 $ npm-diet measure del | npm-diet summary
-#PACKAGES  SIZE       #FILES  #DUPS  DUP      %DUP
----------  ---------  ------  -----  -------  ------
-       26  244.00 KB     112      1  6.81 KB  2.79 %
+#PKGS  SIZE       #FILES  #DUPS  DUP      %DUP
+-----  ---------  ------  -----  -------  ------
+   26  243.73 KB     112      1  6.80 KB  2.79 %
 ```
 
 Show details of duplicates:
@@ -60,11 +60,11 @@ Show details of duplicates:
 $ npm-diet measure del | npm-diet show dup --package-path
 PACKAGE     SIZE     %SIZE     #FILES  PATH
 ----------  -------  --------  ------  -------------------------------------
-pify@3.0.0  7.80 KB                 4  node_modules/pify
+pify@3.0.0  7.79 KB                 4  node_modules/pify
 ----------  -------  --------  ------  -------------------------------------
-pify@2.3.0  6.81 KB  100.00 %       4  node_modules/globby/node_modules/pify
+pify@2.3.0  6.80 KB  100.00 %       4  node_modules/globby/node_modules/pify
 ----------  -------  --------  ------  -------------------------------------
-TOTAL 1     6.81 KB  100.00 %       4
+TOTAL 1     6.80 KB  100.00 %       4
 ```
 
 Show the top 3 packages in descending order of size:
@@ -73,11 +73,11 @@ Show the top 3 packages in descending order of size:
 $ npm-diet measure livereload | npm-diet show measure --top=3
 PACKAGE            SIZE       %SIZE    #FILES
 -----------------  ---------  -------  ------
-fsevents@1.2.4     657.95 KB  17.10 %      36
-nan@2.10.0         401.66 KB  10.44 %      46
-iconv-lite@0.4.21  328.17 KB   8.53 %      27
+fsevents@1.2.4     657.94 KB  17.11 %      36
+nan@2.10.0         401.64 KB  10.44 %      46
+iconv-lite@0.4.21  328.17 KB  8.53 %       27
 -----------------  ---------  -------  ------
-TOP 3                1.36 MB  36.07 %     109
+TOP 3                1.36 MB  36.08 %     109
 TOTAL 131            3.76 MB              973
 ```
 
@@ -85,9 +85,9 @@ Specify multiple packages:
 
 ```console
 $ npm-diet measure mocha chai sinon | npm-diet summary
-#PACKAGES  SIZE     #FILES  #DUPS  DUP  %DUP
----------  -------  ------  -----  ---  ------
-       42  8.65 MB     428      0  0 B  0.00 %
+#PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
+-----  -------  ------  -----  ---  ------
+   42  8.65 MB     428      0  0 B  0.00 %
 ```
 
 Process the analysis result with [jq]:
@@ -120,20 +120,21 @@ $ cat package.json
   }
 }
 
-$ npm-diet pkg-deps package.json | npm-diet measure --stdin | npm-diet summary
-#PACKAGES  SIZE     #FILES  #DUPS  DUP  %DUP
----------  -------  ------  -----  ---  ------
-       74  1.23 MB     577      0  0 B  0.00 %
+$ npm-diet pkg-deps package.json | npm-diet measure --stdin | \
+    npm-diet summary
+#PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
+-----  -------  ------  -----  ---  ------
+   74  1.23 MB     577      0  0 B  0.00 %
 ```
 
 Replace `rimraf` with `del`:
 
 ```console
-$ echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin _rimraf del | \
-    npm-diet summary
-#PACKAGES  SIZE     #FILES  #DUPS  DUP      %DUP
----------  -------  ------  -----  -------  ------
-       87  1.30 MB     627      1  6.81 KB  0.51 %
+$ echo '["npm-run-all","rimraf"]' | \
+    npm-diet measure --stdin _rimraf del | npm-diet summary
+#PKGS  SIZE     #FILES  #DUPS  DUP      %DUP
+-----  -------  ------  -----  -------  ------
+   87  1.30 MB     627      1  6.80 KB  0.51 %
 ```
 
 Show delta values between two package sets:
@@ -143,10 +144,10 @@ $ (npm-diet measure chalk ; npm-diet measure colors) | \
     npm-diet delta --stdin | npm-diet summary
 LABEL             #PKGS  %PKGS     SIZE       %SIZE     #FILES  %FILES
 ----------------  -----  --------  ---------  --------  ------  --------
-BASELINE (chalk)      7             87.85 KB                35
-SUBJECT (colors)      1             37.30 KB                21
+BASELINE (chalk)      7             87.78 KB                35
+SUBJECT (colors)      1             37.29 KB                21
 ----------------  -----  --------  ---------  --------  ------  --------
-DELTA                -6  -85.71 %  -50.55 KB  -57.54 %     -14  -40.00 %
+DELTA                -6  -85.71 %  -50.49 KB  -57.52 %     -14  -40.00 %
 ```
 
 Show details of a delta analysis:
@@ -156,30 +157,30 @@ $ (npm-diet measure mini-lr ; npm-diet measure tiny-lr) | \
     npm-diet delta --stdin | npm-diet show delta --top=3
 INCREASE                SIZE       %SIZE    #FILES
 ----------------------  ---------  -------  ------
-tiny-lr@1.1.1           206.89 KB  70.83 %      41
-body@5.1.0               19.24 KB   6.59 %      13
-error@7.0.2              18.23 KB   6.24 %      14
+tiny-lr@1.1.1           206.88 KB  70.85 %  41
+body@5.1.0              19.22 KB   6.58 %   13
+error@7.0.2             18.22 KB   6.24 %   14
 ----------------------  ---------  -------  ------
-TOP 3                   244.35 KB  83.65 %      68
-TOTAL 9                 292.10 KB              113
+TOP 3                   244.32 KB  83.67 %  68
+TOTAL 9                 292.00 KB           113
 
 DECREASE                SIZE       %SIZE    #FILES
 ----------------------  ---------  -------  ------
-iconv-lite@0.4.13       325.29 KB  44.22 %      27
-mime-db@1.35.0          179.32 KB  24.37 %       6
-body-parser@1.14.2       47.32 KB   6.43 %      10
+iconv-lite@0.4.13       325.28 KB  44.23 %  27
+mime-db@1.35.0          179.31 KB  24.38 %  6
+body-parser@1.14.2      47.31 KB   6.43 %   10
 ----------------------  ---------  -------  ------
-TOP 3                   551.92 KB  75.02 %      43
-TOTAL 16                735.67 KB              131
+TOP 3                   551.89 KB  75.04 %  43
+TOTAL 16                735.50 KB           131
 
 COMMON                  SIZE       %SIZE    #FILES
 ----------------------  ---------  -------  ------
-livereload-js@2.3.0      88.86 KB  17.79 %      14
-qs@5.2.0                 73.41 KB  14.70 %      18
-websocket-driver@0.7.0   64.79 KB  12.97 %      18
+livereload-js@2.3.0     88.84 KB   17.79 %  14
+qs@5.2.0                73.40 KB   14.70 %  18
+websocket-driver@0.7.0  64.78 KB   12.97 %  18
 ----------------------  ---------  -------  ------
-TOP 3                   227.06 KB  45.46 %      50
-TOTAL 14                499.46 KB              152
+TOP 3                   227.03 KB  45.47 %  50
+TOTAL 14                499.31 KB           152
 ```
 
 ## Data Models
