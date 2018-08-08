@@ -5,10 +5,11 @@
 
 'use strict';
 
+const program = require('commander');
 const lib = require('../lib');
 const packageJson = require('../package.json');
 
-lib.cli.program
+program
   .description('Show details of an analysis')
   .command(
     'measure',

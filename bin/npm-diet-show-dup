@@ -5,6 +5,7 @@
 
 'use strict';
 
+const program = require('commander');
 const lib = require('../lib');
 
 const HELP = `
@@ -19,7 +20,7 @@ const HELP = `
     details of duplicate packages in a table format.
 `;
 
-lib.cli.program
+program
   .description(
     'Show details of duplicate packages')
   .option(

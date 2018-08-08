@@ -5,6 +5,7 @@
 
 'use strict';
 
+const program = require('commander');
 const lib = require('../lib');
 
 const HELP = `
@@ -18,7 +19,7 @@ const HELP = `
     shows the size of each package in a table format.
 `;
 
-lib.cli.program
+program
   .description(
     'Show details of a delta analysis')
   .option(

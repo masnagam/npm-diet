@@ -5,8 +5,8 @@
 
 'use strict';
 
+const program = require('commander');
 const { promisify } = require('util');
-
 const fs = require('fs');
 const streamToString = require('stream-to-string');
 const lib = require('../lib');
@@ -31,7 +31,7 @@ const HELP = `
     the baseline values.
 `;
 
-lib.cli.program
+program
   .description(
     'Compute a difference from a baselin package set')
   .option(

@@ -5,8 +5,8 @@
 
 'use strict';
 
+const program = require('commander');
 const { promisify } = require('util');
-
 const EventEmitter = require('events');
 const ora = require('ora');
 const rimraf = promisify(require('rimraf'));
@@ -50,7 +50,7 @@ const HELP = `
       $ npm-diet measure aaa bbb _bbb@^1.1.0
 `;
 
-lib.cli.program
+program
   .description(
     'Collect metrics of each installed package')
   .option(

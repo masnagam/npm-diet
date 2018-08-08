@@ -5,10 +5,10 @@
 
 'use strict';
 
-const lib = require('../lib');
+const program = require('commander');
 const packageJson = require('../package.json');
 
-lib.cli.program
+program
   .version(packageJson.version)
   .description(packageJson.description)
   .command(

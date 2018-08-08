@@ -5,6 +5,7 @@
 
 'use strict';
 
+const program = require('commander');
 const path = require('path');
 const lib = require('../lib');
 
@@ -33,7 +34,7 @@ const HELP = `
       $ npm-diet pkg-deps path/to/package.json | npm-diet measure --stdin
 `;
 
-lib.cli.program
+program
   .description(
     'Extract dependent packages described in package.json')
   .option(

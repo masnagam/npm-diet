@@ -5,6 +5,7 @@
 
 'use strict';
 
+const program = require('commander');
 const lib = require('../lib');
 
 const HELP = `
@@ -18,7 +19,7 @@ const HELP = `
     a brief summary of the analysis result.
 `;
 
-lib.cli.program
+program
   .description(
     'Show a brief summary of an analysis')
   .arguments(
