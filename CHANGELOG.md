@@ -1,3 +1,7 @@
+## 0.2.2 (2018-08-09)
+
+* fix(show): fix alignment ([b4fc728](https://github.com/masnagam/npm-diet/commit/b4fc728))
+
 ## 0.2.1 (2018-08-08)
 
 * fix: result was shown twice ([e43f685](https://github.com/masnagam/npm-diet/commit/e43f685))
