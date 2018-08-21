@@ -49,63 +49,35 @@ Show a brief summary of an analysis:
 
 ```console
 $ npm-diet measure del | npm-diet summary
-#PKGS  SIZE       #FILES  #DUPS  DUP      %DUP
------  ---------  ------  -----  -------  ------
-   26  243.73 KB     112      1  6.80 KB  2.79 %
+@@npm-diet measure del | npm-diet summary
 ```
 
 Show details of duplicates:
 
 ```console
 $ npm-diet measure del | npm-diet show dup --package-path
-PACKAGE     SIZE     %SIZE     #FILES  PATH
-----------  -------  --------  ------  -------------------------------------
-pify@3.0.0  7.79 KB                 4  node_modules/pify
-----------  -------  --------  ------  -------------------------------------
-pify@2.3.0  6.80 KB  100.00 %       4  node_modules/globby/node_modules/pify
-----------  -------  --------  ------  -------------------------------------
-TOTAL 1     6.80 KB  100.00 %       4
+@@npm-diet measure del | npm-diet show dup --package-path
 ```
 
 Show the top 3 packages in descending order of size:
 
 ```console
 $ npm-diet measure livereload | npm-diet show measure --top=3
-PACKAGE            SIZE       %SIZE    #FILES
------------------  ---------  -------  ------
-fsevents@1.2.4     657.94 KB  17.10 %      36
-nan@2.10.0         401.64 KB  10.44 %      46
-iconv-lite@0.4.21  328.17 KB   8.53 %      27
------------------  ---------  -------  ------
-TOP 3                1.36 MB  36.06 %     109
-TOTAL 131            3.76 MB              973
+@@npm-diet measure livereload | npm-diet show measure --top=3
 ```
 
 Specify multiple packages:
 
 ```console
 $ npm-diet measure mocha chai sinon | npm-diet summary
-#PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
------  -------  ------  -----  ---  ------
-   43  8.70 MB     454      0  0 B  0.00 %
+@@npm-diet measure mocha chai sinon | npm-diet summary
 ```
 
 Process the analysis result with [jq]:
 
 ```console
 $ npm-diet measure commander | jq '.packages[].files[] | .path, .size'
-"CHANGELOG.md"
-10317
-"LICENSE"
-1098
-"Readme.md"
-12381
-"index.js"
-28123
-"package.json"
-1808
-"typings/index.d.ts"
-8401
+@@npm-diet measure commander | jq '.packages[].files[] | .path, .size'
 ```
 
 Use a `package.json` file for analysis:
@@ -122,9 +94,7 @@ $ cat package.json
 
 $ npm-diet pkg-deps package.json | npm-diet measure --stdin | \
     npm-diet summary
-#PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
------  -------  ------  -----  ---  ------
-   73  1.23 MB     568      0  0 B  0.00 %
+@@echo '["npm-run-all@^4.1.3","rimraf@^2.6.2"]' | npm-diet measure --stdin | npm-diet summary
 ```
 
 Replace `rimraf` with `del`:
@@ -132,9 +102,7 @@ Replace `rimraf` with `del`:
 ```console
 $ echo '["npm-run-all","rimraf"]' | \
     npm-diet measure --stdin _rimraf del | npm-diet summary
-#PKGS  SIZE     #FILES  #DUPS  DUP      %DUP
------  -------  ------  -----  -------  ------
-   86  1.29 MB     618      1  6.80 KB  0.51 %
+@@echo '["npm-run-all","rimraf"]' | npm-diet measure --stdin _rimraf del | npm-diet summary
 ```
 
 Show delta values between two package sets:
@@ -142,12 +110,7 @@ Show delta values between two package sets:
 ```console
 $ (npm-diet measure chalk ; npm-diet measure colors) | \
     npm-diet delta --stdin | npm-diet summary
-LABEL             #PKGS  %PKGS     SIZE       %SIZE     #FILES  %FILES
-----------------  -----  --------  ---------  --------  ------  --------
-BASELINE (chalk)      7             87.80 KB                35
-SUBJECT (colors)      1             37.29 KB                21
-----------------  -----  --------  ---------  --------  ------  --------
-DELTA                -6  -85.71 %  -50.51 KB  -57.53 %     -14  -40.00 %
+@@(npm-diet measure chalk ; npm-diet measure colors) | npm-diet delta --stdin | npm-diet summary
 ```
 
 Show details of a delta analysis:
@@ -155,32 +118,7 @@ Show details of a delta analysis:
 ```console
 $ (npm-diet measure mini-lr ; npm-diet measure tiny-lr) | \
     npm-diet delta --stdin | npm-diet show delta --top=3
-INCREASE                SIZE       %SIZE    #FILES
-----------------------  ---------  -------  ------
-tiny-lr@1.1.1           206.88 KB  70.85 %  41
-body@5.1.0              19.22 KB   6.58 %   13
-error@7.0.2             18.22 KB   6.24 %   14
-----------------------  ---------  -------  ------
-TOP 3                   244.32 KB  83.67 %  68
-TOTAL 9                 292.00 KB           113
-
-DECREASE                SIZE       %SIZE    #FILES
-----------------------  ---------  -------  ------
-iconv-lite@0.4.13       325.28 KB  44.23 %  27
-mime-db@1.35.0          179.31 KB  24.38 %  6
-body-parser@1.14.2      47.31 KB   6.43 %   10
-----------------------  ---------  -------  ------
-TOP 3                   551.89 KB  75.04 %  43
-TOTAL 16                735.50 KB           131
-
-COMMON                  SIZE       %SIZE    #FILES
-----------------------  ---------  -------  ------
-livereload-js@2.3.0     88.84 KB   17.79 %  14
-qs@5.2.0                73.40 KB   14.70 %  18
-websocket-driver@0.7.0  64.78 KB   12.97 %  18
-----------------------  ---------  -------  ------
-TOP 3                   227.03 KB  45.47 %  50
-TOTAL 14                499.31 KB           152
+@@(npm-diet measure mini-lr ; npm-diet measure tiny-lr) | npm-diet delta --stdin | npm-diet show delta --top=3
 ```
 
 ## Data Models
@@ -295,4 +233,3 @@ file for details.
 [jq]: https://stedolan.github.io/jq/
 [cost-of-modules]: https://github.com/siddharthkp/cost-of-modules
 [package-size-analyzer]: https://www.npmjs.com/package/package-size-analyzer
-

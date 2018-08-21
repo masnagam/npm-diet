@@ -7,7 +7,8 @@
     "npm-diet": "bin/npm-diet"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc jasmine"
+    "test": "cross-env NODE_ENV=test nyc jasmine",
+    "update-readme": "node scripts/update-readme.js >README.md"
   },
   "keywords": [
     "package",
