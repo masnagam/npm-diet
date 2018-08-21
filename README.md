@@ -289,8 +289,8 @@ Subsequent analysers may add other metrics.
 
 ## License
 
-This software is distributed under the MIT license.  See [LICENSE](./LICENSE)
-file for details.
+This software is distributed under the Apache license 2.0.  See
+[LICENSE](./LICENSE) file for details.
 
 [jq]: https://stedolan.github.io/jq/
 [cost-of-modules]: https://github.com/siddharthkp/cost-of-modules
