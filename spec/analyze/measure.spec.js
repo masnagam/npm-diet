@@ -35,6 +35,7 @@ describe('measure', () => {
   const FOO_PATH = path.join('node_modules', FOO.name);
   const FOO_LIB_INDEX_JS_PATH = path.join(FOO_PATH, 'lib', 'index.js');
   const FOO_LIB_INDEX_JS = 'module.exports.foo = 1;';
+  const FOO_LIB_SYMLINK_JS_PATH = path.join(FOO_PATH, 'lib', 'symlink.js');
   const FOO_PACKAGE_JSON_PATH = path.join(FOO_PATH, 'package.json');
   const FOO_PACKAGE_JSON = JSON.stringify(FOO);
   const BAR = { name: 'bar', version: '2.0.0' };
@@ -76,6 +77,7 @@ describe('measure', () => {
       .withArgs('npm install foo', { cwd: WORKDIR }, jasmine.any(Function))
       .and.callFake((command, options, callback) => {
         memfs.vol.fromJSON(VOLUME, options.cwd);
+        memfs.vol.symlinkSync(FOO_LIB_INDEX_JS, FOO_LIB_SYMLINK_JS_PATH);
         callback(null, { stdout: '', stderr: '' });
       });
 
