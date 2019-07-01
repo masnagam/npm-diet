@@ -51,7 +51,7 @@ Show a brief summary of an analysis:
 $ npm-diet measure del | npm-diet summary
 #PKGS  SIZE       #FILES  #DUPS  DUP      %DUP
 -----  ---------  ------  -----  -------  ------
-   26  243.73 KB     112      1  6.80 KB  2.79 %
+   30  885.02 KB     178      1  6.80 KB  0.77 %
 ```
 
 Show details of duplicates:
@@ -60,7 +60,7 @@ Show details of duplicates:
 $ npm-diet measure del | npm-diet show dup --package-path
 PACKAGE     SIZE     %SIZE     #FILES  PATH
 ----------  -------  --------  ------  -------------------------------------
-pify@3.0.0  7.79 KB                 4  node_modules/pify
+pify@4.0.1  8.11 KB                 4  node_modules/pify
 ----------  -------  --------  ------  -------------------------------------
 pify@2.3.0  6.80 KB  100.00 %       4  node_modules/globby/node_modules/pify
 ----------  -------  --------  ------  -------------------------------------
@@ -73,21 +73,21 @@ Show the top 3 packages in descending order of size:
 $ npm-diet measure livereload | npm-diet show measure --top=3
 PACKAGE            SIZE       %SIZE    #FILES
 -----------------  ---------  -------  ------
-fsevents@1.2.4     657.94 KB  17.10 %      36
-nan@2.10.0         401.64 KB  10.44 %      46
-iconv-lite@0.4.21  328.17 KB   8.53 %      27
+source-map@0.5.7   750.73 KB  14.25 %      19
+nan@2.14.0         408.59 KB   7.75 %      46
+iconv-lite@0.4.24  328.75 KB   6.24 %      26
 -----------------  ---------  -------  ------
-TOP 3                1.36 MB  36.06 %     109
-TOTAL 131            3.76 MB              973
+TOP 3                1.45 MB  28.24 %      91
+TOTAL 205            5.15 MB             1306
 ```
 
 Specify multiple packages:
 
 ```console
 $ npm-diet measure mocha chai sinon | npm-diet summary
-#PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
------  -------  ------  -----  ---  ------
-   43  8.70 MB     454      0  0 B  0.00 %
+#PKGS  SIZE      #FILES  #DUPS  DUP        %DUP
+-----  --------  ------  -----  ---------  ------
+  134  15.16 MB    2252     13  326.00 KB  2.10 %
 ```
 
 Process the analysis result with [jq]:
@@ -95,17 +95,17 @@ Process the analysis result with [jq]:
 ```console
 $ npm-diet measure commander | jq '.packages[].files[] | .path, .size'
 "CHANGELOG.md"
-10317
+11086
 "LICENSE"
 1098
 "Readme.md"
-12381
+12783
 "index.js"
-28123
+27883
 "package.json"
-1808
+1834
 "typings/index.d.ts"
-8401
+8508
 ```
 
 Use a `package.json` file for analysis:
@@ -124,7 +124,7 @@ $ npm-diet pkg-deps package.json | npm-diet measure --stdin | \
     npm-diet summary
 #PKGS  SIZE     #FILES  #DUPS  DUP  %DUP
 -----  -------  ------  -----  ---  ------
-   73  1.23 MB     568      0  0 B  0.00 %
+   66  1.40 MB     596      0  0 B  0.00 %
 ```
 
 Replace `rimraf` with `del`:
@@ -132,9 +132,9 @@ Replace `rimraf` with `del`:
 ```console
 $ echo '["npm-run-all","rimraf"]' | \
     npm-diet measure --stdin _rimraf del | npm-diet summary
-#PKGS  SIZE     #FILES  #DUPS  DUP      %DUP
------  -------  ------  -----  -------  ------
-   86  1.29 MB     618      1  6.80 KB  0.51 %
+#PKGS  SIZE     #FILES  #DUPS  DUP       %DUP
+-----  -------  ------  -----  --------  ------
+   85  2.11 MB     720      3  22.43 KB  1.04 %
 ```
 
 Show delta values between two package sets:
@@ -144,10 +144,10 @@ $ (npm-diet measure chalk ; npm-diet measure colors) | \
     npm-diet delta --stdin | npm-diet summary
 LABEL             #PKGS  %PKGS     SIZE       %SIZE     #FILES  %FILES
 ----------------  -----  --------  ---------  --------  ------  --------
-BASELINE (chalk)      7             87.80 KB                35
-SUBJECT (colors)      1             37.29 KB                21
+BASELINE (chalk)      7             90.44 KB                38
+SUBJECT (colors)      1             37.53 KB                21
 ----------------  -----  --------  ---------  --------  ------  --------
-DELTA                -6  -85.71 %  -50.51 KB  -57.53 %     -14  -40.00 %
+DELTA                -6  -85.71 %  -52.91 KB  -58.51 %     -17  -44.74 %
 ```
 
 Show details of a delta analysis:
@@ -166,21 +166,21 @@ TOTAL 9                 292.00 KB           113
 
 DECREASE                SIZE       %SIZE    #FILES
 ----------------------  ---------  -------  ------
-iconv-lite@0.4.13       325.28 KB  44.23 %  27
-mime-db@1.35.0          179.31 KB  24.38 %  6
-body-parser@1.14.2      47.31 KB   6.43 %   10
+iconv-lite@0.4.13       325.28 KB  43.68 %  27
+mime-db@1.40.0          184.85 KB  24.82 %  6
+body-parser@1.14.2      47.31 KB   6.35 %   10
 ----------------------  ---------  -------  ------
-TOP 3                   551.89 KB  75.04 %  43
-TOTAL 16                735.50 KB           131
+TOP 3                   557.44 KB  74.85 %  43
+TOTAL 16                744.73 KB           131
 
 COMMON                  SIZE       %SIZE    #FILES
 ----------------------  ---------  -------  ------
-livereload-js@2.3.0     88.84 KB   17.79 %  14
-qs@5.2.0                73.40 KB   14.70 %  18
-websocket-driver@0.7.0  64.78 KB   12.97 %  18
+livereload-js@2.4.0     88.21 KB   16.61 %  14
+qs@5.2.0                73.40 KB   13.82 %  18
+websocket-driver@0.7.3  66.26 KB   12.48 %  18
 ----------------------  ---------  -------  ------
-TOP 3                   227.03 KB  45.47 %  50
-TOTAL 14                499.31 KB           152
+TOP 3                   227.88 KB  42.91 %  50
+TOTAL 15                531.02 KB           157
 ```
 
 ## Data Models

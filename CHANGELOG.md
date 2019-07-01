@@ -1,10 +1,12 @@
+## 0.4.0 (2019-07-01)
+
+* build: update packages
+
 ## 0.3.0 (2018-08-22)
 
 * chore: change the license from MIT to Apache-2.0 ([08e8b3e](https://github.com/masnagam/npm-diet/commit/08e8b3e))
 * docs: update README.md by `npm run update-readme` ([a1e1b9e](https://github.com/masnagam/npm-diet/commit/a1e1b9e))
 * fix(measure): skip symbolic links when collecting file sizes ([3b9caa7](https://github.com/masnagam/npm-diet/commit/3b9caa7))
-
-
 
 ## 0.2.2 (2018-08-09)
 
