@@ -28,7 +28,7 @@
     "ora": "^3.4.0",
     "puka": "^1.0.0",
     "rimraf": "^2.6.3",
-    "semver": "^6.1.2",
+    "semver": "^6.2.0",
     "stream-to-string": "^1.2.0"
   },
   "files": [
@@ -45,9 +45,10 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "jasmine": "^3.4.0",
-    "memfs": "^2.15.4",
+    "lodash": "^4.17.15",
+    "memfs": "^2.15.5",
     "nyc": "^14.1.1",
-    "proxyquire": "^2.1.0"
+    "proxyquire": "^2.1.1"
   },
   "publishConfig": {
     "access": "public"
