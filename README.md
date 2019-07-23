@@ -3,7 +3,7 @@
 > A tool to help keeping your package slim
 
 [![npm version](https://badge.fury.io/js/%40masnagam%2Fnpm-diet.svg)](https://badge.fury.io/js/%40masnagam%2Fnpm-diet)
-[![Build Status](https://travis-ci.org/masnagam/npm-diet.svg?branch=master)](https://travis-ci.org/masnagam/npm-diet)
+[![Build Status](https://travis-ci.com/masnagam/npm-diet.svg?branch=master)](https://travis-ci.com/masnagam/npm-diet)
 [![Build status](https://ci.appveyor.com/api/projects/status/0rpjvxtbho32b1nh/branch/master?svg=true)](https://ci.appveyor.com/project/masnagam/npm-diet/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d683292612b847a5a2e8e2c28b122d68)](https://www.codacy.com/app/masnagam/npm-diet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=masnagam/npm-diet&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/033bf64f11530c968a41/maintainability)](https://codeclimate.com/github/masnagam/npm-diet/maintainability)
@@ -295,4 +295,3 @@ This software is distributed under the Apache license 2.0.  See
 [jq]: https://stedolan.github.io/jq/
 [cost-of-modules]: https://github.com/siddharthkp/cost-of-modules
 [package-size-analyzer]: https://www.npmjs.com/package/package-size-analyzer
-
