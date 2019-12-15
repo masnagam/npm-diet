@@ -28,7 +28,7 @@
     "ora": "^4.0.3",
     "puka": "^1.0.0",
     "rimraf": "^3.0.0",
-    "semver": "^6.2.0",
+    "semver": "^7.0.0",
     "stream-to-string": "^1.2.0"
   },
   "files": [
