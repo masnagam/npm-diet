@@ -43,7 +43,7 @@
     "lib": "lib"
   },
   "devDependencies": {
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.0",
     "jasmine": "^3.4.0",
     "lodash": "^4.17.15",
     "memfs": "^3.0.3",
