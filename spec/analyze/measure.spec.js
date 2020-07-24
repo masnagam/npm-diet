@@ -277,7 +277,7 @@ describe('computeInstallArgs_', () => {
       name: '@masnagam/npm-diet',
       detail: '^1.0.0'
     }]);
-    expect(args).toEqual(['@masnagam/npm-diet@>=1.0.0 <2.0.0']);
+    expect(args).toEqual(['@masnagam/npm-diet@>=1.0.0 <2.0.0-0']);
   });
 
   it('supports the url format', () => {
