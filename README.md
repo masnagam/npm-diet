@@ -2,10 +2,8 @@
 
 > A tool to help keeping your package slim
 
-[![npm version](https://badge.fury.io/js/%40masnagam%2Fnpm-diet.svg)](https://badge.fury.io/js/%40masnagam%2Fnpm-diet)
-[![Build Status](https://travis-ci.com/masnagam/npm-diet.svg?branch=master)](https://travis-ci.com/masnagam/npm-diet)
-[![Build status](https://ci.appveyor.com/api/projects/status/0rpjvxtbho32b1nh/branch/master?svg=true)](https://ci.appveyor.com/project/masnagam/npm-diet/branch/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d683292612b847a5a2e8e2c28b122d68)](https://www.codacy.com/app/masnagam/npm-diet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=masnagam/npm-diet&amp;utm_campaign=Badge_Grade)
+[![npm (scoped)](https://img.shields.io/npm/v/@masnagam/npm-diet)](https://www.npmjs.com/package/@masnagam/npm-diet)
+[![CI](https://github.com/masnagam/npm-diet/workflows/CI/badge.svg)](https://github.com/masnagam/npm-diet/actions?query=workflow%3ACI)
 [![Maintainability](https://api.codeclimate.com/v1/badges/033bf64f11530c968a41/maintainability)](https://codeclimate.com/github/masnagam/npm-diet/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/033bf64f11530c968a41/test_coverage)](https://codeclimate.com/github/masnagam/npm-diet/test_coverage)
 
